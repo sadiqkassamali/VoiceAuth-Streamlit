@@ -544,11 +544,11 @@ def visualize_mfcc(temp_file_path):
         "mfccfeatures.png")
     plt.savefig(plt_file_path)
     # Open the file based on the OS
-    if platform.system() == "Windows":
-        os.startfile(plt_file_path)
-        return plt_file_path
-    elif platform.system() == "Darwin":  # macOS
+    if platform.system() == "Darwin":  # macOS
         subprocess.run(["open", plt_file_path], check=True)
+        return plt_file_path
+    else:
+        os.startfile(plt_file_path)
         return plt_file_path
 
 
@@ -573,11 +573,11 @@ def create_mel_spectrogram(temp_file_path):
         os.path.dirname(temp_file_path),
         "melspectrogram.png")
     plt.savefig(mel_file_path)
-    if platform.system() == "Windows":
-        os.startfile(mel_file_path)
-        return mel_file_path
-    elif platform.system() == "Darwin":  # macOS
+    if platform.system() == "Darwin":  # macOS
         subprocess.run(["open", mel_file_path], check=True)
+        return mel_file_path
+    else:
+        os.startfile(mel_file_path)
         return mel_file_path
 
 
@@ -636,9 +636,10 @@ def visualize_embeddings_tsne(file_path, output_path="tsne_visualization.png"):
     plt.savefig(output_path)
     plt.close()
     # Open the file based on the OS
-    if platform.system() == "Windows":
-        os.startfile(output_path)
-        return output_path
-    elif platform.system() == "Darwin":  # macOS
+
+    if platform.system() == "Darwin":  # macOS
         subprocess.run(["open", output_path], check=True)
+        return output_path
+    else:
+        os.startfile(output_path)
         return output_path
