@@ -550,9 +550,6 @@ def visualize_mfcc(temp_file_path):
     elif platform.system() == "Darwin":  # macOS
         subprocess.run(["open", plt_file_path], check=True)
         return plt_file_path
-    else:  # Linux and others
-        subprocess.run(["xdg-open", plt_file_path], check=True)
-        return plt_file_path
 
 
 def create_mel_spectrogram(temp_file_path):
@@ -581,9 +578,6 @@ def create_mel_spectrogram(temp_file_path):
         return mel_file_path
     elif platform.system() == "Darwin":  # macOS
         subprocess.run(["open", mel_file_path], check=True)
-        return mel_file_path
-    else:  # Linux and others
-        subprocess.run(["xdg-open", mel_file_path], check=True)
         return mel_file_path
 
 
@@ -647,7 +641,4 @@ def visualize_embeddings_tsne(file_path, output_path="tsne_visualization.png"):
         return output_path
     elif platform.system() == "Darwin":  # macOS
         subprocess.run(["open", output_path], check=True)
-        return output_path
-    else:  # Linux and others
-        subprocess.run(["xdg-open", output_path], check=True)
         return output_path
