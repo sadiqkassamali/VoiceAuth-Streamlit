@@ -25,6 +25,8 @@ import tensorflow_hub as hub
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 
 
 def frozen_oo():
@@ -34,12 +36,11 @@ def frozen_oo():
     if frozen_oo.__doc__ is None and hasattr(sys, "frozen"):
         from ctypes import c_int, pythonapi
 
-        c_int.in_dll(pythonapi, "Py_OptimizeFlag").value = 1
+        c_int.in_dll(pythonapi, "Py_OptimizeFlag").value = 2
 
 
 frozen_oo()
-
-matplotlib.use("Agg")
+matplotlib.use("TkAgg")
 
 
 def get_base_path():
@@ -81,25 +82,28 @@ config = {"sample_rate": 16000, "n_mfcc": 40}
 
 # Determine if running as a standalone executable
 if getattr(sys, "frozen", False):
-    base_path = os.path.dirname(sys._MEIPASS)  # Path for frozen executable
+    base_path = os.path.dirname(sys._MEIPASS)
 else:
-    base_path = os.path.dirname(os.path.abspath(__file__))  # Path for development mode
+    base_path = os.path.dirname(".")
+
 
 def get_model_path(filename):
-    """
-    Get the model file path based on the application's location.
-    Ensures the dataset directory exists and returns the complete model path.
-    """
-    # Resolve the dataset directory and create it if it doesn't exist
+    if getattr(sys, "frozen", False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(os.path.dirname(__file__))
+
+    # Ensure the dataset directory exists
     dataset_path = os.path.join(base_path, "dataset")
     os.makedirs(dataset_path, exist_ok=True)
-
     return os.path.join(dataset_path, filename)
+
 
 # Load the Random Forest model
 rf_model_path = get_model_path("deepfakevoice.joblib")
 print(f"Resolved model path: {rf_model_path}")
 print(f"File exists: {os.path.exists(rf_model_path)}")
+rf_model = joblib.load(rf_model_path)
 
 try:
     print(f"Loading Random Forest model from {rf_model_path}...")
@@ -108,25 +112,25 @@ try:
 except FileNotFoundError:
     print(f"Model file not found at {rf_model_path}")
 except Exception as e:
-    raise RuntimeError(f"Error during loading Random Forest model from {rf_model_path}: {e}")
+    raise RuntimeError("Error during loading models") from e
 
-# Load Hugging Face model - Melody
+# Load Hugging Face model-melody
 try:
-    print("Loading Hugging Face Melody model...")
-    pipe = pipeline("audio-classification", model="MelodyMachine/Deepfake-audio-detection-V2")
-    print("Melody model loaded successfully.")
+    print("Loading Hugging Face model...")
+    pipe = pipeline("audio-classification",
+                    model="MelodyMachine/Deepfake-audio-detection-V2")
+    print("model-melody model loaded successfully.")
 except Exception as e:
-    print(f"Error loading Hugging Face Melody model: {e}")
+    print(f"Error loading Hugging Face model: {e}")
 
-# Load Hugging Face model - 960h
+# Load Hugging Face model-960h
 try:
-    print("Loading Hugging Face 960h model...")
-    pipe2 = pipeline("audio-classification", model="HyperMoon/wav2vec2-base-960h-finetuned-deepfake")
+    print("Loading Hugging Face model...")
+    pipe2 = pipeline("audio-classification",
+                     model="HyperMoon/wav2vec2-base-960h-finetuned-deepfake")
     print("960h model loaded successfully.")
 except Exception as e:
-    print(f"Error loading Hugging Face 960h model: {e}")
-    
-# Global variable to store the database path
+    print(f"Error loading Hugging Face model: {e}")
 db_path = None
 
 
