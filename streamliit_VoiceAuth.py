@@ -59,24 +59,211 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
-# Custom CSS for styling
 st.markdown("""
     <style>
+        /* Global Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
-        .css-1d391kg { max-width: 1200px; margin: 0 auto; }
+        
+        /* Centering container */
+        .css-1d391kg {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header styling */
+        h1, h2, h3 {
+            color: #333;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Button Styling */
         .stButton>button {
             background-color: #4CAF50;
             color: white;
-            border-radius: 10px;
-            padding: 12px 24px;
-            transition: background-color 0.3s;
+            border-radius: 25px;
+            padding: 14px 28px;
+            font-size: 16px;
+            border: none;
+            transition: transform 0.3s, background-color 0.3s ease-in-out;
         }
-        .stButton>button:hover { background-color: #45a049; }
+        .stButton>button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .stButton>button:active {
+            background-color: #388e3c;
+        }
+
+        /* Card-style container for each section */
+        .stMarkdown, .stText, .stTextArea {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields */
+        .stTextInput, .stSelectbox, .stRadio, .stFileUploader {
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+        .stTextInput:focus, .stSelectbox:focus, .stRadio:focus, .stFileUploader:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Progress bar custom styles */
+        .progress-bar {
+            background-color: #e0e0e0;
+            height: 8px;
+            border-radius: 5px;
+        }
+        .progress-bar .progress {
+            background-color: #4CAF50;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
+        }
+
+        /* Hover effects for links */
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease-in-out;
+        }
+        a:hover {
+            color: #388e3c;
+        }
+
+        /* Custom Footer Style */
+        footer {
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Particle Background Animation */
+        .particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        /* Add some animated text effects */
+        .model-title {
+            font-size: 1.5em;
+            color: #4CAF50;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
     </style>
 """, unsafe_allow_html=True)
+
+# Add particles.js to create particle effect on the background (using a CDN)
+st.markdown("""
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#4CAF50"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 10,
+                        "size_min": 0.1
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#4CAF50",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 4,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 600
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+    <div id="particles-js"></div>
+""", unsafe_allow_html=True)
+
 
 # Main App UI
 st.title("VoiceAuth - Deepfake Audio and Voice Detector")
