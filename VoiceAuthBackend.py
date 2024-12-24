@@ -292,6 +292,43 @@ def convert_to_wav(file_path):
         logging.error(f"Error converting file to WAV: {e}")
         raise
 
+def load_yamnet_labels():
+    import requests
+
+    response = requests.get(YAMNET_LABELS_URL)
+    return [line.split(",")[2].strip()
+            for line in response.text.strip().split("\n")[1:]]
+
+
+yamnet_labels = load_yamnet_labels()
+
+
+# Function to extract features and make predictions with VGGish
+def predict_vggish(file_path):
+    """
+    Process audio and predict embeddings using the VGGish model.
+    :param audio_path: Path to the audio file
+    :return: Embeddings (numpy array)
+    """
+    try:
+        # Load and preprocess the audio
+        audio, sr = librosa.load(file_path, sr=16000, mono=True)
+        if len(audio) == 0:
+            raise ValueError("Audio file is empty or unreadable.")
+
+        # Pad or truncate to 1 second (16000 samples)
+        audio = (
+            audio[:16000]
+            if len(audio) > 16000
+            else np.pad(audio, (0, max(0, 16000 - len(audio))))
+        )
+
+        # Run VGGish model to get embeddings
+        embeddings = vggish_model(audio)
+        return embeddings.numpy()
+    except Exception as e:
+        raise RuntimeError(f"Error processing VGGish prediction: {e}")
+
 
 # Function to extract MFCC features from an audio file
 def extract_features(file_path):
