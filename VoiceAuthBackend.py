@@ -1,27 +1,31 @@
 import platform
 import subprocess
-import tempfile
-import shutil
-import os
-import sys
-import sqlite3
-import datetime
-import logging
-import joblib
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-import librosa
-import tensorflow_hub as hub
+
 from transformers import pipeline
 from pydub import AudioSegment
-from mutagen.mp3 import MP3  # For MP3 files
+import numpy as np
+from sklearn.manifold import TSNE
 from mutagen.wave import WAVE  # For WAV files
+from mutagen.mp3 import MP3  # For MP3 files
 import mutagen
+import matplotlib.pyplot as plt
+import matplotlib
+import librosa
+import joblib
+import warnings
 import threading
+import tempfile
+import sys
+import sqlite3
+import shutil
+import datetime
+import logging
+import os
+import tensorflow_hub as hub
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+
 
 def frozen_oo():
     """Check if code is frozen with optimization=2"""
@@ -31,6 +35,7 @@ def frozen_oo():
         from ctypes import c_int, pythonapi
 
         c_int.in_dll(pythonapi, "Py_OptimizeFlag").value = 1
+
 
 frozen_oo()
 
@@ -69,9 +74,16 @@ else:
     # Add ffmpeg path for normal script execution
     os.environ["PATH"] += os.pathsep + os.path.abspath("ffmpeg")
 os.environ["LIBROSA_CACHE_DIR"] = "/tmp/librosa"
+# Configuration setti
 
 # Configuration settings
 config = {"sample_rate": 16000, "n_mfcc": 40}
+
+# Determine if running as a standalone executable
+if getattr(sys, "frozen", False):
+    base_path = os.path.dirname(sys._MEIPASS)
+else:
+    base_path = os.path.dirname(".")
 
 
 def get_model_path(filename):
@@ -276,21 +288,40 @@ def predict_yamnet(file_path):
 init_db()
 
 
-# Convert various formats to WAV using pydub
+# Convert various formats to WAV
 def convert_to_wav(file_path):
-    """
-    Converts various audio formats to WAV.
-    :param file_path: Path to the audio file
-    :return: Converted WAV file path
-    """
     try:
-        sound = AudioSegment.from_file(file_path)
-        temp_wav = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-        sound.export(temp_wav.name, format="wav")
-        return temp_wav.name
+        import moviepy.editor as mp
+    except ImportError:
+        raise Exception("Please install moviepy>=1.0.3 and retry")
+    temp_wav_path = tempfile.mktemp(suffix=".wav")
+    file_ext = os.path.splitext(file_path)[-1].lower()
+    try:
+        if file_ext in [
+            ".mp3",
+            ".ogg",
+            ".wma",
+            ".aac",
+            ".flac",
+            ".alac",
+            ".aiff",
+            ".m4a",
+        ]:
+            audio = AudioSegment.from_file(file_path)
+            audio.export(temp_wav_path, format="wav")
+        elif file_ext in [".mp4", ".mov", ".avi", ".mkv", ".webm"]:
+            video = mp.VideoFileClip(file_path)
+            audio = video.audio
+            audio.write_audiofile(temp_wav_path, codec="pcm_s16le")
+        elif file_ext == ".wav":
+            return file_path
+        else:
+            raise ValueError(f"Unsupported file format: {file_ext}")
+        return temp_wav_path
     except Exception as e:
-        logging.error(f"Error converting file to WAV: {e}")
+        logging.error(f"Error converting {file_path} to WAV: {e}")
         raise
+
 
 def load_yamnet_labels():
     import requests
@@ -330,23 +361,20 @@ def predict_vggish(file_path):
         raise RuntimeError(f"Error processing VGGish prediction: {e}")
 
 
-# Function to extract MFCC features from an audio file
+# Feature extraction function for Random Forest model
 def extract_features(file_path):
-    """
-    Extract MFCC features from an audio file.
-    :param file_path: Path to the audio file
-    :return: Extracted features
-    """
+    wav_path = convert_to_wav(file_path)
     try:
-        # Load the audio file
-        y, sr = librosa.load(file_path, sr=config["sample_rate"])
-
-        # Extract MFCC features
-        mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=config["n_mfcc"])
-        return mfcc
+        audio, sample_rate = librosa.load(wav_path, sr=config["sample_rate"])
+        mfccs = librosa.feature.mfcc(
+            y=audio, sr=sample_rate, n_mfcc=config["n_mfcc"])
+        mfccs_mean = np.mean(mfccs, axis=1)
+        mfccs_mean = mfccs_mean.reshape(1, -1)
+        if wav_path != file_path:
+            os.remove(wav_path)
+        return mfccs_mean
     except Exception as e:
-        logging.error(f"Error extracting features from {file_path}: {e}")
-        raise
+        raise RuntimeError(f"Error extracting features from {file_path}: {e}")
 
 
 def predict_rf(file_path):
@@ -434,11 +462,11 @@ def typewriter_effect(text_widget, text, typing_speed=0.05):
 
 # Revised scoring labels
 def get_score_label(confidence):
-    if confidence is not None and confidence > 0.90:
+    if confidence > 0.90:
         return "Almost certainly real"
-    elif confidence is not None and confidence > 0.80:
+    elif confidence > 0.80:
         return "Probably real but with slight doubt"
-    elif confidence is not None and confidence > 0.65:
+    elif confidence > 0.65:
         return "High likelihood of being fake, use caution"
     else:
         return "Considered fake: quality of audio does matter, do check for false positive just in case.."
@@ -515,7 +543,16 @@ def visualize_mfcc(temp_file_path):
         os.path.dirname(temp_file_path),
         "mfccfeatures.png")
     plt.savefig(plt_file_path)
-    return plt_file_path
+    # Open the file based on the OS
+    if platform.system() == "Windows":
+        os.startfile(plt_file_path)
+        return plt_file_path
+    elif platform.system() == "Darwin":  # macOS
+        subprocess.run(["open", plt_file_path], check=True)
+        return plt_file_path
+    else:  # Linux and others
+        subprocess.run(["xdg-open", plt_file_path], check=True)
+        return plt_file_path
 
 
 def create_mel_spectrogram(temp_file_path):
@@ -539,7 +576,15 @@ def create_mel_spectrogram(temp_file_path):
         os.path.dirname(temp_file_path),
         "melspectrogram.png")
     plt.savefig(mel_file_path)
-    return mel_file_path
+    if platform.system() == "Windows":
+        os.startfile(mel_file_path)
+        return mel_file_path
+    elif platform.system() == "Darwin":  # macOS
+        subprocess.run(["open", mel_file_path], check=True)
+        return mel_file_path
+    else:  # Linux and others
+        subprocess.run(["xdg-open", mel_file_path], check=True)
+        return mel_file_path
 
 
 # Function to visualize embeddings using t-SNE
@@ -596,4 +641,13 @@ def visualize_embeddings_tsne(file_path, output_path="tsne_visualization.png"):
     # Save and show the plot
     plt.savefig(output_path)
     plt.close()
-    return output_path
+    # Open the file based on the OS
+    if platform.system() == "Windows":
+        os.startfile(output_path)
+        return output_path
+    elif platform.system() == "Darwin":  # macOS
+        subprocess.run(["open", output_path], check=True)
+        return output_path
+    else:  # Linux and others
+        subprocess.run(["xdg-open", output_path], check=True)
+        return output_path

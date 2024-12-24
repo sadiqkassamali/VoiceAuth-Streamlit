@@ -16,7 +16,7 @@ from VoiceAuthBackend import (
     predict_vggish,
     predict_yamnet,
     save_metadata,
-    typewriter_effect,
+    typewriter_effect, 
     predict_hf2,
     predict_hf,
     predict_rf,
