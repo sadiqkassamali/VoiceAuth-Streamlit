@@ -25,9 +25,6 @@ import tensorflow_hub as hub
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-
 
 def frozen_oo():
     """Check if code is frozen with optimization=2"""
@@ -40,7 +37,7 @@ def frozen_oo():
 
 
 frozen_oo()
-matplotlib.use("TkAgg")
+matplotlib.use("Agg")
 
 
 def get_base_path():
