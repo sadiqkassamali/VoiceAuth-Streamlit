@@ -543,16 +543,7 @@ def visualize_mfcc(temp_file_path):
         os.path.dirname(temp_file_path),
         "mfccfeatures.png")
     plt.savefig(plt_file_path)
-    # Open the file based on the OS
-    if platform.system() == "Windows":
-        os.startfile(plt_file_path)
-        return plt_file_path
-    elif platform.system() == "Darwin":  # macOS
-        subprocess.run(["open", plt_file_path], check=True)
-        return plt_file_path
-    else:  # Linux and others
-        subprocess.run(["xdg-open", plt_file_path], check=True)
-        return plt_file_path
+    return plt_file_path
 
 
 def create_mel_spectrogram(temp_file_path):
@@ -576,78 +567,61 @@ def create_mel_spectrogram(temp_file_path):
         os.path.dirname(temp_file_path),
         "melspectrogram.png")
     plt.savefig(mel_file_path)
-    if platform.system() == "Windows":
-        os.startfile(mel_file_path)
-        return mel_file_path
-    elif platform.system() == "Darwin":  # macOS
-        subprocess.run(["open", mel_file_path], check=True)
-        return mel_file_path
-    else:  # Linux and others
-        subprocess.run(["xdg-open", mel_file_path], check=True)
-        return mel_file_path
+    return mel_file_path
 
 
-# Function to visualize embeddings using t-SNE
-def visualize_embeddings_tsne(file_path, output_path="tsne_visualization.png"):
-    # Apply t-SNE to reduce dimensions to 2D
-    embeddings = predict_vggish(file_path)
-
-    # Check the number of samples (rows in embeddings)
-    n_samples = embeddings.shape[0]
-
-    # If there is only one sample, t-SNE cannot be performed
-    if n_samples <= 1:
-        print(
-            f"t-SNE cannot be performed with only {n_samples} sample(s). Skipping visualization."
-        )
-        # Optionally, save a default plot or handle it however you want
-        plt.figure(figsize=(10, 6))
-        plt.text(
-            0.5,
-            0.5,
-            "Not enough samples for t-SNE",
-            fontsize=12,
-            ha="center")
-        plt.title("t-SNE Visualization of Audio Embeddings")
-        plt.savefig(output_path)
-        plt.close()
-        os.startfile(output_path)
-        return
-
-    # Ensure perplexity is less than n_samples and set a valid float value
-    # Ensure perplexity is less than n_samples
-    perplexity = min(30, n_samples - 1)
-    # Set a minimum valid value for perplexity
-    perplexity = max(5.0, perplexity)
-
-    # Apply t-SNE to reduce dimensions to 2D
-    tsne = TSNE(n_components=2, random_state=42, perplexity=perplexity)
-    reduced_embeddings = tsne.fit_transform(embeddings)
-
-    # Plot the reduced embeddings
-    plt.figure(figsize=(10, 6))
-    plt.scatter(
-        reduced_embeddings[:, 0],
-        reduced_embeddings[:, 1],
-        c="blue",
-        alpha=0.7,
-        edgecolors="k",
-    )
-    plt.title("t-SNE Visualization of Audio Embeddings")
-    plt.xlabel("Component 1")
-    plt.ylabel("Component 2")
-    plt.tight_layout()
-
-    # Save and show the plot
-    plt.savefig(output_path)
-    plt.close()
-    # Open the file based on the OS
-    if platform.system() == "Windows":
-        os.startfile(output_path)
-        return output_path
-    elif platform.system() == "Darwin":  # macOS
-        subprocess.run(["open", output_path], check=True)
-        return output_path
-    else:  # Linux and others
-        subprocess.run(["xdg-open", output_path], check=True)
-        return output_path
+# # Function to visualize embeddings using t-SNE
+# def visualize_embeddings_tsne(file_path, output_path="tsne_visualization.png"):
+#     # Apply t-SNE to reduce dimensions to 2D
+#     embeddings = predict_vggish(file_path)
+#
+#     # Check the number of samples (rows in embeddings)
+#     n_samples = embeddings.shape[0]
+#
+#     # If there is only one sample, t-SNE cannot be performed
+#     if n_samples <= 1:
+#         print(
+#             f"t-SNE cannot be performed with only {n_samples} sample(s). Skipping visualization."
+#         )
+#         # Optionally, save a default plot or handle it however you want
+#         plt.figure(figsize=(10, 6))
+#         plt.text(
+#             0.5,
+#             0.5,
+#             "Not enough samples for t-SNE",
+#             fontsize=12,
+#             ha="center")
+#         plt.title("t-SNE Visualization of Audio Embeddings")
+#         plt.savefig(output_path)
+#         plt.close()
+#         os.startfile(output_path)
+#         return
+#
+#     # Ensure perplexity is less than n_samples and set a valid float value
+#     # Ensure perplexity is less than n_samples
+#     perplexity = min(30, n_samples - 1)
+#     # Set a minimum valid value for perplexity
+#     perplexity = max(5.0, perplexity)
+#
+#     # Apply t-SNE to reduce dimensions to 2D
+#     tsne = TSNE(n_components=2, random_state=42, perplexity=perplexity)
+#     reduced_embeddings = tsne.fit_transform(embeddings)
+#
+#     # Plot the reduced embeddings
+#     plt.figure(figsize=(10, 6))
+#     plt.scatter(
+#         reduced_embeddings[:, 0],
+#         reduced_embeddings[:, 1],
+#         c="blue",
+#         alpha=0.7,
+#         edgecolors="k",
+#     )
+#     plt.title("t-SNE Visualization of Audio Embeddings")
+#     plt.xlabel("Component 1")
+#     plt.ylabel("Component 2")
+#     plt.tight_layout()
+#
+#     # Save and show the plot
+#     plt.savefig(output_path)
+#     plt.close()
+#     return output_path
