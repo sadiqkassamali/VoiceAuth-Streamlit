@@ -37,6 +37,7 @@ else:
 
 
 def update_progress(progress_bar, progress, text="Processing...", eta=None):
+    """Update the progress bar and show text with optional ETA."""
     progress_bar.progress(progress)
     st.text(text)
     if eta is not None:
@@ -64,7 +65,7 @@ st.markdown("""
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f9fafb;
         }
         .css-1d391kg { max-width: 1200px; margin: 0 auto; }
         .stButton>button {
@@ -75,6 +76,34 @@ st.markdown("""
             transition: background-color 0.3s;
         }
         .stButton>button:hover { background-color: #45a049; }
+        .progress-bar {
+            position: relative;
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+        .progress-bar .progress {
+            position: absolute;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
+        }
+        .model-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #4CAF50;
+        }
+        .section-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+        .stTextArea {
+            color: #555;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -84,52 +113,52 @@ st.markdown("### Detect fake voices using deep learning models")
 logo_image = Image.open("images/bot2.png")
 st.image(logo_image, width=150)
 
-# File uploader
+# File uploader with clearer instruction
 uploaded_file = st.file_uploader(
-    "Choose an audio file",
+    "Upload an audio or video file for analysis:",
     type=["mp3", "wav", "ogg", "flac", "aac", "m4a", "mp4", "mov", "avi", "mkv", "webm"],
 )
 
 # Model selection
 model_option = st.radio(
-    "Select Model(s)", ("Random Forest", "Melody", "960h", "All")
+    "Select Model(s) for Detection:",
+    ("Random Forest", "Melody", "960h", "All"),
+    index=3
 )
 
 if uploaded_file:
     if st.button("Run Prediction"):
-        # Create a progress bar
+        # Create a progress bar and simulate processing with fake progress
         progress_bar = st.progress(0)
-        st.text("Processing...")
+        st.text("Starting the analysis...")
 
-        # Temporary file handling using tempfile.NamedTemporaryFile
         with NamedTemporaryFile(delete=True, suffix=".wav") as temp_file:
-            # Save uploaded file content to the temp file
             temp_file.write(uploaded_file.getbuffer())
-            temp_file.seek(0)  # Reset file pointer to the beginning
+            temp_file.seek(0)
 
             # Extract audio from video if uploaded file is a video format
             if uploaded_file.type in ['video/mp4', 'video/mkv', 'video/avi', 'video/mov', 'video/webm']:
                 st.text("Extracting audio from video...")
                 temp_file.name = extract_audio_from_video(uploaded_file.name)
 
-            # Extract audio duration
+            # Simulate audio extraction progress
+            update_progress(progress_bar, 0.3, "Audio extraction complete...")
+
             try:
                 audio_length = librosa.get_duration(path=temp_file.name)
                 st.text(f"Audio Duration: {audio_length:.2f} seconds")
             except NoBackendError:
-                st.text("Error: No backend available to process the audio file.")
+                st.text("Error: Unable to process the audio file.")
                 audio_length = None
 
-            # Start processing
-            start_time = time.time()
-            update_progress(progress_bar, 0.1, "Starting analysis...")
+            # Start fake processing
+            update_progress(progress_bar, 0.5, "Running deepfake detection models...")
 
             # Run predictions
             rf_is_fake = hf_is_fake = hf2_is_fake = False
             rf_confidence = hf_confidence = hf2_confidence = 0.0
             combined_confidence = 0.0
 
-            # Model prediction functions
             def run_rf_model():
                 return predict_rf(temp_file.name)
 
@@ -139,7 +168,7 @@ if uploaded_file:
             def run_hf2_model():
                 return predict_hf2(temp_file.name)
 
-            # Parallel processing for all models
+            # Simulate model processing
             if model_option == "All":
                 with ThreadPoolExecutor(max_workers=10) as executor:
                     futures = {
@@ -173,31 +202,16 @@ if uploaded_file:
                 st.markdown("---")
                 st.text(f"960h: {'Fake' if hf2_is_fake else 'Real'} - Confidence: {hf2_confidence:.2f}")
 
-            # Single model predictions
-            elif model_option == "Random Forest":
-                rf_is_fake, rf_confidence = run_rf_model()
-                combined_confidence = rf_confidence
-                combined_result = rf_is_fake
-
-            elif model_option == "Melody":
-                hf_is_fake, hf_confidence = run_hf_model()
-                combined_confidence = hf_confidence
-                combined_result = hf_is_fake
-
-            elif model_option == "960h":
-                hf2_is_fake, hf2_confidence = run_hf2_model()
-                combined_confidence = hf2_confidence
-                combined_result = hf2_is_fake
-
-            # Update progress
+            # Update final progress
             update_progress(progress_bar, 1.0, "Finalizing results...")
 
-            # Display results
+            # Display final results
             result_text = get_score_label(combined_confidence)
             st.text(f"Confidence: {result_text} ({combined_confidence:.2f})")
             st.text("Prediction: Fake" if combined_result else "Prediction: Real")
             st.markdown("---")
-            # File metadata
+
+            # Show file metadata
             file_format, file_size, audio_length, bitrate, _ = get_file_metadata(temp_file.name)
             st.text(
                 f"File Format: {file_format}, Size: {file_size:.2f} MB, "
