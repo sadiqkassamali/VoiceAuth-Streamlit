@@ -434,11 +434,11 @@ def typewriter_effect(text_widget, text, typing_speed=0.05):
 
 # Revised scoring labels
 def get_score_label(confidence):
-    if confidence > 0.90:
+    if confidence is not None and confidence > 0.90:
         return "Almost certainly real"
-    elif confidence > 0.80:
+    elif confidence is not None and confidence > 0.80:
         return "Probably real but with slight doubt"
-    elif confidence > 0.65:
+    elif confidence is not None and confidence > 0.65:
         return "High likelihood of being fake, use caution"
     else:
         return "Considered fake: quality of audio does matter, do check for false positive just in case.."
