@@ -9,6 +9,7 @@ import streamlit as st
 from PIL import Image
 from tempfile import NamedTemporaryFile
 from audioread.exceptions import NoBackendError
+from moviepy.editor import AudioFileClip  # for video-to-audio conversion
 
 from VoiceAuthBackend import (
     get_file_metadata,
@@ -16,7 +17,7 @@ from VoiceAuthBackend import (
     predict_vggish,
     predict_yamnet,
     save_metadata,
-    typewriter_effect, 
+    typewriter_effect,
     predict_hf2,
     predict_hf,
     predict_rf,
@@ -40,6 +41,14 @@ def update_progress(progress_bar, progress, text="Processing...", eta=None):
     st.text(text)
     if eta is not None:
         st.text(f"Estimated Time: {eta:.2f} seconds")
+
+
+def extract_audio_from_video(video_file_path):
+    """Extracts audio from a video file and returns the path to the audio file."""
+    video = AudioFileClip(video_file_path)
+    audio_path = video_file_path.replace(".mp4", ".wav")
+    video.write_audiofile(audio_path)
+    return audio_path
 
 
 # Streamlit application layout
@@ -98,6 +107,11 @@ if uploaded_file:
             temp_file.write(uploaded_file.getbuffer())
             temp_file.seek(0)  # Reset file pointer to the beginning
 
+            # Extract audio from video if uploaded file is a video format
+            if uploaded_file.type in ['video/mp4', 'video/mkv', 'video/avi', 'video/mov', 'video/webm']:
+                st.text("Extracting audio from video...")
+                temp_file.name = extract_audio_from_video(uploaded_file.name)
+
             # Extract audio duration
             try:
                 audio_length = librosa.get_duration(path=temp_file.name)
@@ -127,7 +141,7 @@ if uploaded_file:
 
             # Parallel processing for all models
             if model_option == "All":
-                with ThreadPoolExecutor(max_workers=20) as executor:
+                with ThreadPoolExecutor(max_workers=3) as executor:
                     futures = {
                         executor.submit(run_rf_model): "Random Forest",
                         executor.submit(run_hf_model): "Melody",
@@ -194,6 +208,7 @@ if uploaded_file:
             st.markdown("---")
             mel_spectrogram_path = create_mel_spectrogram(temp_file.name)
             st.image(mel_spectrogram_path, caption="Mel Spectrogram", use_container_width=True)
+
 
 def open_donate():
     donate_url = "https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD"
