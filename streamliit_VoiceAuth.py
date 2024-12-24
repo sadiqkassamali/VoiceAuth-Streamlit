@@ -154,9 +154,13 @@ if uploaded_file:
             # Start fake processing
             update_progress(progress_bar, 0.5, "Running deepfake detection models...")
 
-            # Run predictions
-            rf_is_fake = hf_is_fake = hf2_is_fake = False
-            rf_confidence = hf_confidence = hf2_confidence = 0.0
+            hf_confidence = 0.0  # Default confidence value
+            hf_is_fake = False    # Default fake detection result
+            # Other variables for models
+            rf_confidence = 0.0
+            hf2_confidence = 0.0
+            rf_is_fake = False
+            hf2_is_fake = False
             combined_confidence = 0.0
 
             def run_rf_model():
@@ -243,6 +247,7 @@ contact_expander = st.expander("Contact & Support")
 contact_expander.markdown(
     "For assistance: [Email](mailto:sadiqkassamali@gmail.com)"
 )
+contact_expander.markdown("[Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali")
 contact_expander.markdown(
     "[Donate to Support](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)"
 )
