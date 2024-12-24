@@ -29,8 +29,9 @@ Introducing **VoiceAuth**: Your Shield Against Deepfake Audio
 Download now and take control of your audio files. With VoiceAuth, truth and authenticity are always within reach.
 
 ## 💡 Support Us!
-Love what VoiceAuth stands for? Help us grow by donating here:  
-[Donate to VoiceAuth](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)
+Love what VoiceAuth stands for? Help us grow by donating here:
+# [Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali)
+# [Donate to Support](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)
 
 🎉 **VoiceAuth** – Deepfake Audio and Voice Detection Made Simple.  
 📧 Need assistance or want to collaborate? Reach out: [sadiqkassamali@gmail.com](mailto:sadiqkassamali@gmail.com)
@@ -44,8 +45,6 @@ Love what VoiceAuth stands for? Help us grow by donating here:
 ![VoiceAuth Overview](https://github.com/user-attachments/assets/584cf1e4-589a-4214-bcf3-57d9f7408e45)
 
 ![App Interface](images/img.png)
-
-[Watch demo video](images%2FVoiceAuth.mp4)
 
 ---
 
@@ -74,8 +73,4 @@ Install the required packages:
 3. Ensure that `ffmpeg` is installed and added to your system PATH for audio and video processing.
 4. Have fun!
 # [Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali)
-#[Donate to Support](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)
-
-
-
-
+# [Donate to Support](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)
