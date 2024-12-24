@@ -223,7 +223,7 @@ contact_expander.markdown(
 )
 donate_expander = st.expander("Donate")
 donate_expander.markdown(
-    "[Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali"
+    "[Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali)"
 )
 donate_expander.markdown(
     "[Donate to Support](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)"

@@ -64,8 +64,8 @@ Love what VoiceAuth stands for? Help us grow by donating here:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/sadiqkassamali/voice-auth.git
-   cd voice-auth
+   git clone https://github.com/sadiqkassamali/VoiceAuth-Streamlit.git
+   cd VoiceAuth-Streamlit
 Install the required packages:
    ```bash
    pip install -r requirements.txt
