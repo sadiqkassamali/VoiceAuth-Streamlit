@@ -59,126 +59,52 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
+# Custom CSS for styling
 st.markdown("""
     <style>
-        /* Global Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f7f9fc;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            background-color: #f9fafb;
         }
-        
-        /* Centering container */
-        .css-1d391kg {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header styling */
-        h1, h2, h3 {
-            color: #333;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        /* Button Styling */
+        .css-1d391kg { max-width: 1200px; margin: 0 auto; }
         .stButton>button {
             background-color: #4CAF50;
             color: white;
-            border-radius: 25px;
-            padding: 14px 28px;
-            font-size: 16px;
-            border: none;
-            transition: transform 0.3s, background-color 0.3s ease-in-out;
-        }
-        .stButton>button:hover {
-            background-color: #45a049;
-            transform: scale(1.05);
-        }
-        .stButton>button:active {
-            background-color: #388e3c;
-        }
-
-        /* Card-style container for each section */
-        .stMarkdown, .stText, .stTextArea {
-            background-color: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 12px 24px;
+            transition: background-color 0.3s;
         }
-
-        /* Input Fields */
-        .stTextInput, .stSelectbox, .stRadio, .stFileUploader {
-            border-radius: 8px;
-            border: 2px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #fafafa;
-        }
-        .stTextInput:focus, .stSelectbox:focus, .stRadio:focus, .stFileUploader:focus {
-            border-color: #4CAF50;
-            box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
-        }
-
-        /* Progress bar custom styles */
+        .stButton>button:hover { background-color: #45a049; }
         .progress-bar {
-            background-color: #e0e0e0;
-            height: 8px;
+            position: relative;
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
             border-radius: 5px;
         }
         .progress-bar .progress {
-            background-color: #4CAF50;
+            position: absolute;
             height: 100%;
+            background-color: #4CAF50;
             border-radius: 5px;
             transition: width 0.5s ease-out;
         }
-
-        /* Hover effects for links */
-        a {
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease-in-out;
-        }
-        a:hover {
-            color: #388e3c;
-        }
-
-        /* Custom Footer Style */
-        footer {
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-            margin-top: 30px;
-            box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
-        }
-
-        /* Particle Background Animation */
-        .particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        /* Add some animated text effects */
         .model-title {
-            font-size: 1.5em;
+            font-weight: bold;
+            font-size: 1.1em;
             color: #4CAF50;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
-
+        .section-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+        .stTextArea {
+            color: #555;
+        }
     </style>
 """, unsafe_allow_html=True)
-
 # Main App UI
 st.title("VoiceAuth - Deepfake Audio and Voice Detector")
 st.markdown("### Detect fake voices using deep learning models")
@@ -289,14 +215,12 @@ if uploaded_file:
             result_text = get_score_label(combined_confidence)
             st.text(f"Confidence: {result_text} ({combined_confidence:.2f})")
             st.text("Prediction: Fake" if combined_result else "Prediction: Real")
-            st.markdown("---")
             # File metadata
             file_format, file_size, audio_length, bitrate, _ = get_file_metadata(temp_file.name)
             st.text(
                 f"File Format: {file_format}, Size: {file_size:.2f} MB, "
                 f"Audio Length: {audio_length:.2f} sec, Bitrate: {bitrate:.2f} Mbps"
             )
-            st.markdown("---")
 
             # Save metadata
             model_used = model_option if model_option != "All" else "Random Forest, Melody, and 960h"
