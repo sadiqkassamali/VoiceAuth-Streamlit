@@ -188,8 +188,15 @@ if uploaded_file:
 
                 # Combine results
                 confidences = [rf_confidence, hf_confidence, hf2_confidence]
-                valid_confidences = [c for c in confidences if isinstance(c, (int, float)) and c > 0]
-                combined_confidence = sum(valid_confidences) / len(valid_confidences) if valid_confidences else 0.0
+                valid_confidences = [conf for conf in confidences if isinstance(conf, (int, float)) and conf > 0]
+                if valid_confidences:
+                    combined_confidence = sum(
+                        valid_confidences) / len(valid_confidences)
+                else:
+                    combined_confidence = (
+                        0.0  # Default if none of the models produced a valid result
+                    )
+
                 combined_result = rf_is_fake or hf_is_fake or hf2_is_fake
 
             # Single model predictions
