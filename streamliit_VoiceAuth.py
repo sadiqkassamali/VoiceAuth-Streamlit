@@ -168,7 +168,7 @@ if uploaded_file:
                 combined_result = hf2_is_fake
 
             # Update progress
-            update_progress(progress_bar, 0.9, "Finalizing results...")
+            update_progress(progress_bar, 1.0, "Finalizing results...")
 
             # Display results
             result_text = get_score_label(combined_confidence)
