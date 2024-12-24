@@ -87,7 +87,7 @@ st.image(logo_image, width=150)
 # File uploader
 uploaded_file = st.file_uploader(
     "Choose an audio file",
-    type=["mp3", "wav", "ogg", "flac", "aac", "m4a", "mp4", "mov", "avi", "mkv", "webm"],
+    type=["mp3", "wav", "ogg", "flac", "aac", "m4a"],
 )
 
 # Model selection
@@ -141,7 +141,7 @@ if uploaded_file:
 
             # Parallel processing for all models
             if model_option == "All":
-                with ThreadPoolExecutor(max_workers=3) as executor:
+                with ThreadPoolExecutor(max_workers=20) as executor:
                     futures = {
                         executor.submit(run_rf_model): "Random Forest",
                         executor.submit(run_hf_model): "Melody",
