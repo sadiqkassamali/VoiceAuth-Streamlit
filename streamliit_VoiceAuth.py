@@ -87,7 +87,7 @@ st.image(logo_image, width=150)
 # File uploader
 uploaded_file = st.file_uploader(
     "Choose an audio file",
-    type=["mp3", "wav", "ogg", "flac", "aac", "m4a"],
+    type=["mp3", "wav", "ogg", "flac", "aac", "m4a", "mp4", "mov", "avi", "mkv", "webm"],
 )
 
 # Model selection
@@ -141,7 +141,7 @@ if uploaded_file:
 
             # Parallel processing for all models
             if model_option == "All":
-                with ThreadPoolExecutor(max_workers=20) as executor:
+                with ThreadPoolExecutor(max_workers=10) as executor:
                     futures = {
                         executor.submit(run_rf_model): "Random Forest",
                         executor.submit(run_hf_model): "Melody",
@@ -164,6 +164,14 @@ if uploaded_file:
                 valid_confidences = [c for c in confidences if isinstance(c, (int, float)) and c > 0]
                 combined_confidence = sum(valid_confidences) / len(valid_confidences) if valid_confidences else 0.0
                 combined_result = rf_is_fake or hf_is_fake or hf2_is_fake
+
+                # Display detailed results for each model
+                st.markdown("### Model Predictions")
+                st.text(f"Random Forest: {'Fake' if rf_is_fake else 'Real'} - Confidence: {rf_confidence:.2f}")
+                st.markdown("---")
+                st.text(f"Melody: {'Fake' if hf_is_fake else 'Real'} - Confidence: {hf_confidence:.2f}")
+                st.markdown("---")
+                st.text(f"960h: {'Fake' if hf2_is_fake else 'Real'} - Confidence: {hf2_confidence:.2f}")
 
             # Single model predictions
             elif model_option == "Random Forest":
