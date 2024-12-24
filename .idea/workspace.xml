@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="Streamlit version of the VoiceAuth APP">
+      <change afterPath="$PROJECT_DIR$/.idea/VoiceAuth-Streamlit.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamliit_VoiceAuth.py" beforeDir="false" afterPath="$PROJECT_DIR$/streamliit_VoiceAuth.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;sadiqkassamali&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/sadiqkassamali/VoiceAuth-Streamlit.git&quot;,
+    &quot;accountId&quot;: &quot;ac66aaa5-ce48-40a6-bf7b-ddeeb4fb77fd&quot;
+  }
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2pbM1XrQveuABbYUpt1ZHd9mmPl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15307583",
+    "project.structure.side.proportion": "0.5942529",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\noureen\IntelliJIDEAProjects\VoiceAuth-Streamlit" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="streamliit_VoiceAuth" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="VoiceAuth-Streamlit" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/streamliit_VoiceAuth.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="" />
+      <created>1733030113013</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733030113013</updated>
+      <workItem from="1733030114041" duration="5869000" />
+      <workItem from="1733231538251" duration="9000" />
+      <workItem from="1733803397137" duration="3138000" />
+      <workItem from="1733868737976" duration="678000" />
+      <workItem from="1733888205297" duration="1444000" />
+      <workItem from="1733890079395" duration="240000" />
+      <workItem from="1733890799386" duration="29000" />
+      <workItem from="1734166906540" duration="746000" />
+      <workItem from="1734171072397" duration="600000" />
+      <workItem from="1735025144364" duration="1929000" />
+    </task>
+    <task id="LOCAL-00001" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733032260190</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733032260190</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733033491604</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733033491604</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733034384200</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733034384200</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733034634910</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733034634910</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733034857071</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733034857071</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733035617157</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733035617157</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1733036158403</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733036158403</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735026085767</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1735026085767</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Streamlit version of the VoiceAuth APP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Streamlit version of the VoiceAuth APP" />
+  </component>
+</project>
