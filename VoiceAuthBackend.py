@@ -115,7 +115,7 @@ except Exception as e:
 try:
     print("Loading Hugging Face model...")
     pipe = pipeline("audio-classification",
-                    model="MelodyMachine/Deepfake-audio-detection-V2")
+                    model="TFWav2Vec2ForSequenceClassification")
     print("model-melody model loaded successfully.")
 except Exception as e:
     print(f"Error loading Hugging Face model: {e}")
@@ -124,7 +124,7 @@ except Exception as e:
 try:
     print("Loading Hugging Face model...")
     pipe2 = pipeline("audio-classification",
-                     model="HyperMoon/wav2vec2-base-960h-finetuned-deepfake")
+                     model="TFWav2Vec2ForSequenceClassification")
     print("960h model loaded successfully.")
 except Exception as e:
     print(f"Error loading Hugging Face model: {e}")
