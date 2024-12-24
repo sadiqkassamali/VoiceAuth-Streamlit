@@ -221,7 +221,10 @@ contact_expander = st.expander("Contact & Support")
 contact_expander.markdown(
     "For assistance: [Email](mailto:sadiqkassamali@gmail.com)"
 )
-contact_expander.markdown("[Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali")
-contact_expander.markdown(
+donate_expander = st.expander("Donate")
+donate_expander.markdown(
+    "[Buy Me Coffee](https://buymeacoffee.com/sadiqkassamali"
+)
+donate_expander.markdown(
     "[Donate to Support](https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD)"
 )
