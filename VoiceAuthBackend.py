@@ -1,31 +1,27 @@
 import platform
 import subprocess
-
-from transformers import pipeline
-from pydub import AudioSegment
-import numpy as np
-from sklearn.manifold import TSNE
-from mutagen.wave import WAVE  # For WAV files
-from mutagen.mp3 import MP3  # For MP3 files
-import mutagen
-import matplotlib.pyplot as plt
-import matplotlib
-import librosa
-import joblib
-import warnings
-import threading
 import tempfile
+import shutil
+import os
 import sys
 import sqlite3
-import shutil
 import datetime
 import logging
-import os
+import joblib
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import librosa
 import tensorflow_hub as hub
+from transformers import pipeline
+from pydub import AudioSegment
+from mutagen.mp3 import MP3  # For MP3 files
+from mutagen.wave import WAVE  # For WAV files
+import mutagen
+import threading
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-
 
 def frozen_oo():
     """Check if code is frozen with optimization=2"""
@@ -35,7 +31,6 @@ def frozen_oo():
         from ctypes import c_int, pythonapi
 
         c_int.in_dll(pythonapi, "Py_OptimizeFlag").value = 1
-
 
 frozen_oo()
 
@@ -74,16 +69,9 @@ else:
     # Add ffmpeg path for normal script execution
     os.environ["PATH"] += os.pathsep + os.path.abspath("ffmpeg")
 os.environ["LIBROSA_CACHE_DIR"] = "/tmp/librosa"
-# Configuration setti
 
 # Configuration settings
 config = {"sample_rate": 16000, "n_mfcc": 40}
-
-# Determine if running as a standalone executable
-if getattr(sys, "frozen", False):
-    base_path = os.path.dirname(sys._MEIPASS)
-else:
-    base_path = os.path.dirname(".")
 
 
 def get_model_path(filename):
@@ -288,93 +276,40 @@ def predict_yamnet(file_path):
 init_db()
 
 
-# Convert various formats to WAV
+# Convert various formats to WAV using pydub
 def convert_to_wav(file_path):
+    """
+    Converts various audio formats to WAV.
+    :param file_path: Path to the audio file
+    :return: Converted WAV file path
+    """
     try:
-        import moviepy.editor as mp
-    except ImportError:
-        raise Exception("Please install moviepy>=1.0.3 and retry")
-    temp_wav_path = tempfile.mktemp(suffix=".wav")
-    file_ext = os.path.splitext(file_path)[-1].lower()
-    try:
-        if file_ext in [
-            ".mp3",
-            ".ogg",
-            ".wma",
-            ".aac",
-            ".flac",
-            ".alac",
-            ".aiff",
-            ".m4a",
-        ]:
-            audio = AudioSegment.from_file(file_path)
-            audio.export(temp_wav_path, format="wav")
-        elif file_ext in [".mp4", ".mov", ".avi", ".mkv", ".webm"]:
-            video = mp.VideoFileClip(file_path)
-            audio = video.audio
-            audio.write_audiofile(temp_wav_path, codec="pcm_s16le")
-        elif file_ext == ".wav":
-            return file_path
-        else:
-            raise ValueError(f"Unsupported file format: {file_ext}")
-        return temp_wav_path
+        sound = AudioSegment.from_file(file_path)
+        temp_wav = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        sound.export(temp_wav.name, format="wav")
+        return temp_wav.name
     except Exception as e:
-        logging.error(f"Error converting {file_path} to WAV: {e}")
+        logging.error(f"Error converting file to WAV: {e}")
         raise
 
 
-def load_yamnet_labels():
-    import requests
-
-    response = requests.get(YAMNET_LABELS_URL)
-    return [line.split(",")[2].strip()
-            for line in response.text.strip().split("\n")[1:]]
-
-
-yamnet_labels = load_yamnet_labels()
-
-
-# Function to extract features and make predictions with VGGish
-def predict_vggish(file_path):
-    """
-    Process audio and predict embeddings using the VGGish model.
-    :param audio_path: Path to the audio file
-    :return: Embeddings (numpy array)
-    """
-    try:
-        # Load and preprocess the audio
-        audio, sr = librosa.load(file_path, sr=16000, mono=True)
-        if len(audio) == 0:
-            raise ValueError("Audio file is empty or unreadable.")
-
-        # Pad or truncate to 1 second (16000 samples)
-        audio = (
-            audio[:16000]
-            if len(audio) > 16000
-            else np.pad(audio, (0, max(0, 16000 - len(audio))))
-        )
-
-        # Run VGGish model to get embeddings
-        embeddings = vggish_model(audio)
-        return embeddings.numpy()
-    except Exception as e:
-        raise RuntimeError(f"Error processing VGGish prediction: {e}")
-
-
-# Feature extraction function for Random Forest model
+# Function to extract MFCC features from an audio file
 def extract_features(file_path):
-    wav_path = convert_to_wav(file_path)
+    """
+    Extract MFCC features from an audio file.
+    :param file_path: Path to the audio file
+    :return: Extracted features
+    """
     try:
-        audio, sample_rate = librosa.load(wav_path, sr=config["sample_rate"])
-        mfccs = librosa.feature.mfcc(
-            y=audio, sr=sample_rate, n_mfcc=config["n_mfcc"])
-        mfccs_mean = np.mean(mfccs, axis=1)
-        mfccs_mean = mfccs_mean.reshape(1, -1)
-        if wav_path != file_path:
-            os.remove(wav_path)
-        return mfccs_mean
+        # Load the audio file
+        y, sr = librosa.load(file_path, sr=config["sample_rate"])
+
+        # Extract MFCC features
+        mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=config["n_mfcc"])
+        return mfcc
     except Exception as e:
-        raise RuntimeError(f"Error extracting features from {file_path}: {e}")
+        logging.error(f"Error extracting features from {file_path}: {e}")
+        raise
 
 
 def predict_rf(file_path):
