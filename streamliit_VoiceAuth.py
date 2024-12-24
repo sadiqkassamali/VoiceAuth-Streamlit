@@ -146,7 +146,14 @@ if uploaded_file:
         with open(temp_file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        audio_length = librosa.get_duration(path=temp_file_path)
+        import librosa
+        from audioread.exceptions import NoBackendError
+
+        try:
+            audio_length = librosa.get_duration(path=temp_file_path)
+        except NoBackendError:
+            print("Error: No backend available to process the audio file.")
+            audio_length = None
 
         # Start processing
         start_time = time.time()
