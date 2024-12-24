@@ -127,7 +127,7 @@ if uploaded_file:
 
             # Parallel processing for all models
             if model_option == "All":
-                with ThreadPoolExecutor(max_workers=3) as executor:
+                with ThreadPoolExecutor(max_workers=20) as executor:
                     futures = {
                         executor.submit(run_rf_model): "Random Forest",
                         executor.submit(run_hf_model): "Melody",
