@@ -6,11 +6,11 @@ import webbrowser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import librosa
 import streamlit as st
+from moviepy import AudioFileClip
 from PIL import Image
 from tempfile import NamedTemporaryFile
 from audioread.exceptions import NoBackendError
-from moviepy import AudioFileClipa
-from moviepy.editor import *
+
 
 from VoiceAuthBackend import (
     get_file_metadata,
