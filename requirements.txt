@@ -11,3 +11,5 @@ pydub
 transformers
 pillow
 audioread
+streamlit
+moviepy
