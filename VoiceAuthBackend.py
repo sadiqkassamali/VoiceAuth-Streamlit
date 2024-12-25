@@ -1,7 +1,6 @@
 import platform
 import subprocess
 
-from transformers import pipeline
 from pydub import AudioSegment
 import numpy as np
 from sklearn.manifold import TSNE
@@ -22,6 +21,7 @@ import datetime
 import logging
 import os
 import tensorflow_hub as hub
+from transformers import pipeline
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -111,11 +111,12 @@ except FileNotFoundError:
 except Exception as e:
     raise RuntimeError("Error during loading models") from e
 
+
 # Load Hugging Face model-melody
 try:
     print("Loading Hugging Face model...")
     pipe = pipeline("audio-classification",
-                    model="TFWav2Vec2ForSequenceClassification")
+                    model="MelodyMachine/Deepfake-audio-detection-V2")
     print("model-melody model loaded successfully.")
 except Exception as e:
     print(f"Error loading Hugging Face model: {e}")
@@ -124,11 +125,12 @@ except Exception as e:
 try:
     print("Loading Hugging Face model...")
     pipe2 = pipeline("audio-classification",
-                     model="TFWav2Vec2ForSequenceClassification")
+                     model="HyperMoon/wav2vec2-base-960h-finetuned-deepfake")
     print("960h model loaded successfully.")
 except Exception as e:
     print(f"Error loading Hugging Face model: {e}")
 db_path = None
+
 
 
 def init_db():
