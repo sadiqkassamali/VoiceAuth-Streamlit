@@ -9,7 +9,7 @@ import streamlit as st
 from PIL import Image
 from tempfile import NamedTemporaryFile
 from audioread.exceptions import NoBackendError
-from moviepy.editor import AudioFileClip  # for video-to-audio conversion
+from moviepy.editor import *
 
 from VoiceAuthBackend import (
     get_file_metadata,
