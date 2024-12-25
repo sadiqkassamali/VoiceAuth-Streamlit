@@ -1,9 +1,7 @@
-import platform
-import subprocess
+
 
 from pydub import AudioSegment
 import numpy as np
-from sklearn.manifold import TSNE
 from mutagen.wave import WAVE  # For WAV files
 from mutagen.mp3 import MP3  # For MP3 files
 import mutagen
@@ -20,8 +18,8 @@ import shutil
 import datetime
 import logging
 import os
-import tensorflow_hub as hub
-from transformers import pipeline
+from torch import hub
+from transformers import pipeline, Pipeline
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -124,7 +122,7 @@ except Exception as e:
 # Load Hugging Face model-960h
 try:
     print("Loading Hugging Face model...")
-    pipe2 = pipeline("audio-classification",
+    pipe2: Pipeline = pipeline("audio-classification",
                      model="HyperMoon/wav2vec2-base-960h-finetuned-deepfake")
     print("960h model loaded successfully.")
 except Exception as e:
