@@ -13,3 +13,6 @@ pillow~=10.4.0
 audioread~=3.0.1
 streamlit~=1.41.1
 moviepy~=2.1.1
+torch
+transformers
+librosa
