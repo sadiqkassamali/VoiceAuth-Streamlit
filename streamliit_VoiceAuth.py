@@ -7,23 +7,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import librosa
 import streamlit as st
 from PIL import Image
-from tempfile import NamedTemporaryFile
-from audioread.exceptions import NoBackendError
-from moviepy.editor import AudioFileClip  # for video-to-audio conversion
 
-from VoiceAuthBackend import (
-    get_file_metadata,
-    get_score_label,
-    predict_vggish,
-    predict_yamnet,
-    save_metadata,
-    typewriter_effect,
-    predict_hf2,
-    predict_hf,
-    predict_rf,
-    visualize_mfcc,
-    create_mel_spectrogram,
-)
+from VoiceAuthBackend import (get_file_metadata,
+                              get_score_label,
+                              predict_vggish, predict_yamnet,
+                              save_metadata, typewriter_effect, predict_hf2,
+                              predict_hf, predict_rf, visualize_mfcc, create_mel_spectrogram,
+                              )
 
 # Setup environment variables
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
@@ -43,171 +33,258 @@ def update_progress(progress_bar, progress, text="Processing...", eta=None):
         st.text(f"Estimated Time: {eta:.2f} seconds")
 
 
-def extract_audio_from_video(video_file_path):
-    """Extracts audio from a video file and returns the path to the audio file."""
-    video = AudioFileClip(video_file_path)
-    audio_path = video_file_path.replace(".mp4", ".wav")
-    video.write_audiofile(audio_path)
-    return audio_path
-
-
 # Streamlit application layout
 st.set_page_config(
     page_title="VoiceAuth - Deepfake Audio and Voice Detector",
-    page_icon="images/voiceauth.webp",
-    layout="wide",
-    initial_sidebar_state="auto",
+    page_icon="images/voiceauth.webp",  # Adjust with your own image path
+    layout="wide",  # 'wide' to utilize full screen width
+    initial_sidebar_state="auto",  # Sidebar visibility
 )
 
-# Custom CSS for styling
+# Add custom CSS for additional styling
 st.markdown("""
     <style>
+        /* Global styles */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f0f0f0;
         }
-        .css-1d391kg { max-width: 1200px; margin: 0 auto; }
+        .css-1d391kg { 
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar styles */
+        .css-ffhzg2 {
+            background-color: #ffffff;
+            color: #333333;
+            font-family: 'Arial', sans-serif;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        /* Header styling */
+        h1 {
+            font-size: 3rem;
+            color: #4CAF50;
+        }
+        h2 {
+            font-size: 1.5rem;
+            color: #333333;
+        }
         .stButton>button {
             background-color: #4CAF50;
             color: white;
             border-radius: 10px;
+            border: none;
             padding: 12px 24px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s;
         }
-        .stButton>button:hover { background-color: #45a049; }
+        .stButton>button:hover {
+            background-color: #45a049; /* Darker green for hover effect */
+        }
+        /* Image styling */
+        .stImage {
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .stRadio {
+            font-size: 1.2rem;
+        }
+        .stText {
+            font-size: 1.1rem;
+        }
     </style>
 """, unsafe_allow_html=True)
-
 # Main App UI
 st.title("VoiceAuth - Deepfake Audio and Voice Detector")
 st.markdown("### Detect fake voices using deep learning models")
-logo_image = Image.open("images/bot2.png")
+logo_image = Image.open("images/bot2.png")  # Your logo here
 st.image(logo_image, width=150)
 
-# File uploader
+# File uploader with customized UI
 uploaded_file = st.file_uploader(
     "Choose an audio file",
-    type=["mp3", "wav", "ogg", "flac", "aac", "m4a", "mp4", "mov", "avi", "mkv", "webm"],
+    type=[
+        "mp3",
+        "wav",
+        "ogg",
+        "flac",
+        "aac",
+        "m4a",
+        "mp4",
+        "mov",
+        "avi",
+        "mkv",
+        "webm",
+    ],
 )
 
-# Model selection
+# Model selection radio buttons
 model_option = st.radio(
-    "Select Model(s)", ("Random Forest", "Melody", "960h", "All")
-)
+    "Select Model(s)",
+    ("Random Forest",
+     "Melody",
+     "960h",
+     "All"))
 
+# Button to run prediction
 if uploaded_file:
     if st.button("Run Prediction"):
-        # Create a progress bar
+        # Create the progress bar at the beginning
         progress_bar = st.progress(0)
+
         st.text("Processing...")
 
-        # Temporary file handling using tempfile.NamedTemporaryFile
-        with NamedTemporaryFile(delete=True, suffix=".wav") as temp_file:
-            # Save uploaded file content to the temp file
-            temp_file.write(uploaded_file.getbuffer())
-            temp_file.seek(0)  # Reset file pointer to the beginning
+        file_uuid = str(uuid.uuid4())
+        temp_dir = "temp_dir"
+        os.makedirs(temp_dir, exist_ok=True)
+        temp_file_path = os.path.join(temp_dir, os.path.basename(uploaded_file.name))
 
-            # Extract audio from video if uploaded file is a video format
-            if uploaded_file.type in ['video/mp4', 'video/mkv', 'video/avi', 'video/mov', 'video/webm']:
-                st.text("Extracting audio from video...")
-                temp_file.name = extract_audio_from_video(uploaded_file.name)
+        # Save the uploaded file temporarily
+        with open(temp_file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
 
-            # Extract audio duration
-            try:
-                audio_length = librosa.get_duration(path=temp_file.name)
-                st.text(f"Audio Duration: {audio_length:.2f} seconds")
-            except NoBackendError:
-                st.text("Error: No backend available to process the audio file.")
-                audio_length = None
+        audio_length = librosa.get_duration(path=temp_file_path)
 
-            # Start processing
-            start_time = time.time()
-            update_progress(progress_bar, 0.1, "Starting analysis...")
+        # Start processing
+        start_time = time.time()
+        update_progress(progress_bar, 0.1, "Starting analysis...")
 
-            # Run predictions
-            rf_is_fake = hf_is_fake = hf2_is_fake = False
-            rf_confidence = hf_confidence = hf2_confidence = 0.0
-            combined_confidence = 0.0
+        # Feature extraction
+        extraction_start = time.time()
+        update_progress(progress_bar, 0.2, "Extracting features...")
 
-            # Model prediction functions
-            def run_rf_model():
-                return predict_rf(temp_file.name)
+        selected = model_option
 
-            def run_hf_model():
-                return predict_hf(temp_file.name)
+        rf_is_fake = hf_is_fake = hf2_is_fake = False
+        rf_confidence = hf_confidence = hf2_confidence = 0.0
+        combined_confidence = 0.0
 
-            def run_hf2_model():
-                return predict_hf2(temp_file.name)
 
-            # Parallel processing for all models
-            if model_option == "All":
-                with ThreadPoolExecutor(max_workers=3) as executor:
-                    futures = {
-                        executor.submit(run_rf_model): "Random Forest",
-                        executor.submit(run_hf_model): "Melody",
-                        executor.submit(run_hf2_model): "960h",
-                    }
-                    for future in as_completed(futures):
-                        model_name = futures[future]
-                        try:
-                            if model_name == "Random Forest":
-                                rf_is_fake, rf_confidence = future.result()
-                            elif model_name == "Melody":
-                                hf_is_fake, hf_confidence = future.result()
-                            elif model_name == "960h":
-                                hf2_is_fake, hf2_confidence = future.result()
-                        except Exception as e:
-                            st.text(f"Error in {model_name} model: {e}")
+        # Define functions for model predictions
+        def run_rf_model():
+            return predict_rf(temp_file_path)
 
-                # Combine results
-                confidences = [rf_confidence, hf_confidence, hf2_confidence]
-                valid_confidences = [c for c in confidences if isinstance(c, (int, float)) and c > 0]
-                combined_confidence = sum(valid_confidences) / len(valid_confidences) if valid_confidences else 0.0
-                combined_result = rf_is_fake or hf_is_fake or hf2_is_fake
 
-            # Single model predictions
-            elif model_option == "Random Forest":
-                rf_is_fake, rf_confidence = run_rf_model()
-                combined_confidence = rf_confidence
-                combined_result = rf_is_fake
+        def run_hf_model():
+            return predict_hf(temp_file_path)
 
-            elif model_option == "Melody":
-                hf_is_fake, hf_confidence = run_hf_model()
-                combined_confidence = hf_confidence
-                combined_result = hf_is_fake
 
-            elif model_option == "960h":
-                hf2_is_fake, hf2_confidence = run_hf2_model()
-                combined_confidence = hf2_confidence
-                combined_result = hf2_is_fake
+        def run_hf2_model():
+            return predict_hf2(temp_file_path)
 
-            # Update progress
-            update_progress(progress_bar, 1.0, "Finalizing results...")
 
-            # Display results
-            result_text = get_score_label(combined_confidence)
-            st.text(f"Confidence: {result_text} ({combined_confidence:.2f})")
-            st.text("Prediction: Fake" if combined_result else "Prediction: Real")
-            st.markdown("---")
-            # File metadata
-            file_format, file_size, audio_length, bitrate, _ = get_file_metadata(temp_file.name)
-            st.text(
-                f"File Format: {file_format}, Size: {file_size:.2f} MB, "
-                f"Audio Length: {audio_length:.2f} sec, Bitrate: {bitrate:.2f} Mbps"
-            )
-            st.markdown("---")
+        try:
+            update_progress(progress_bar, 0.4, "Running VGGish model...")
+            embeddings = predict_vggish(temp_file_path)
+            st.text(f"VGGish Embeddings: {embeddings[:5]}...\n")
+        except Exception as e:
+            st.text(f"VGGish model error: {e}")
 
-            # Save metadata
-            model_used = model_option if model_option != "All" else "Random Forest, Melody, and 960h"
-            prediction_result = "Fake" if combined_result else "Real"
-            save_metadata(str(uuid.uuid4()), temp_file.name, model_used, prediction_result, combined_confidence)
+        try:
+            update_progress(progress_bar, 0.5, "Running YAMNet model...")
+            top_label, confidence = predict_yamnet(temp_file_path)
+            st.text(f"YAMNet Prediction: {top_label} (Confidence: {confidence:.2f})\n")
+        except Exception as e:
+            st.text(f"YAMNet model error: {e}")
 
-            # Visualizations
-            mfcc_path = visualize_mfcc(temp_file.name)
-            st.image(mfcc_path, caption="MFCC Visualization", use_container_width=True)
-            st.markdown("---")
-            mel_spectrogram_path = create_mel_spectrogram(temp_file.name)
-            st.image(mel_spectrogram_path, caption="Mel Spectrogram", use_container_width=True)
+        # Parallel processing based on model selection
+        if selected == "All":
+            with ThreadPoolExecutor(max_workers=3) as executor:
+                futures = {
+                    executor.submit(run_rf_model): "Random Forest",
+                    executor.submit(run_hf_model): "Melody",
+                    executor.submit(run_hf2_model): "960h",
+                }
+                for future in as_completed(futures):
+                    model_name = futures[future]
+                    try:
+                        if model_name == "Random Forest":
+                            rf_is_fake, rf_confidence = future.result()
+                        elif model_name == "Melody":
+                            hf_is_fake, hf_confidence = future.result()
+                        elif model_name == "960h":
+                            hf2_is_fake, hf2_confidence = future.result()
+                    except Exception as e:
+                        st.text(f"Error in {model_name} model: {e}")
+
+            confidences = [rf_confidence, hf_confidence, hf2_confidence]
+            valid_confidences = [conf for conf in confidences if isinstance(conf, (int, float)) and conf > 0]
+            if valid_confidences:
+                combined_confidence = sum(valid_confidences) / len(valid_confidences)
+            else:
+                combined_confidence = 0.0
+
+            combined_result = rf_is_fake or hf_is_fake or hf2_is_fake
+
+        # Handle individual model predictions (Random Forest, Melody, 960h)
+        elif selected == "Random Forest":
+            rf_is_fake, rf_confidence = run_rf_model()
+            combined_confidence = rf_confidence
+            combined_result = rf_is_fake
+
+
+        elif selected == "Melody":
+            hf_is_fake, hf_confidence = run_hf_model()
+            combined_confidence = hf_confidence
+            combined_result = hf_is_fake
+
+
+        elif selected == "960h":
+            hf2_is_fake, hf2_confidence = run_hf2_model()
+            combined_confidence = hf2_confidence
+            combined_result = hf2_is_fake
+
+        # Update progress bar for finalizing results
+        update_progress(progress_bar, 0.8, "Finalizing results...")
+        total_time_taken = time.time() - start_time
+        remaining_time = total_time_taken / 0.7 - total_time_taken
+        update_progress(progress_bar, 0.9, "Almost done...", eta=remaining_time)
+
+        # Display results
+        result_text = get_score_label(combined_confidence)
+        st.text(f"Confidence: {result_text} ({combined_confidence:.2f})")
+        result_label = st.text(result_text)
+
+        # Get file metadata
+        file_format, file_size, audio_length, bitrate, additional_metadata = get_file_metadata(temp_file_path)
+        st.text(
+            f"File Format: {file_format}, Size: {file_size:.2f} MB, Audio Length: {audio_length:.2f} sec, Bitrate: {bitrate:.2f} Mbps")
+        st.markdown("---")
+
+        log_message = (
+            f"File Path: {temp_file_path}\n"
+            f"Format: {file_format}\n"
+            f"Size (MB): {file_size:.2f}\n"
+            f"Audio Length (s): {audio_length:.2f}\n"
+            f"Bitrate (Mbps): {bitrate:.2f}\n"
+            f"Result: {result_text}\n"
+        )
+
+        # Log the result with the typewriter effect
+        typewriter_effect(st, log_message)
+        st.markdown("---")
+        # Save metadata
+        model_used = selected if selected != "All" else "Random Forest, Melody and 960h"
+        prediction_result = "Fake" if combined_result else "Real"
+        save_metadata(file_uuid, temp_file_path, model_used, prediction_result, combined_confidence)
+
+        already_seen = save_metadata(file_uuid, temp_file_path, model_used, prediction_result, combined_confidence)
+
+        st.text(f"File already in database: {already_seen}")
+        update_progress(progress_bar, 1.0, "Completed.")
+        st.text(f"Time Taken: {total_time_taken:.2f} seconds")
+        st.markdown("---")
+        mfcc_path = visualize_mfcc(temp_file_path)
+        st.image(mfcc_path, caption="MFCC Visualization", use_container_width=True)
+        st.markdown(f"[Open MFCC Plot in Browser](./{mfcc_path})", unsafe_allow_html=True)
+        st.markdown("---")
+        # Create Mel Spectrogram
+        mel_spectrogram_path = create_mel_spectrogram(temp_file_path)
+        st.image(mel_spectrogram_path, caption="Mel Spectrogram", use_container_width=True)
+        st.markdown(f"[Open Mel Spectrogram in Browser](./{mel_spectrogram_path})", unsafe_allow_html=True)
 
 
 def open_donate():
