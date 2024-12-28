@@ -6,11 +6,10 @@ import webbrowser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import librosa
 import streamlit as st
-from moviepy import AudioFileClip
 from PIL import Image
 from tempfile import NamedTemporaryFile
 from audioread.exceptions import NoBackendError
-
+from moviepy.editor import AudioFileClip  # for video-to-audio conversion
 
 from VoiceAuthBackend import (
     get_file_metadata,
@@ -65,7 +64,7 @@ st.markdown("""
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f9fafb;
+            background-color: #f0f0f0;
         }
         .css-1d391kg { max-width: 1200px; margin: 0 auto; }
         .stButton>button {
@@ -76,36 +75,9 @@ st.markdown("""
             transition: background-color 0.3s;
         }
         .stButton>button:hover { background-color: #45a049; }
-        .progress-bar {
-            position: relative;
-            width: 100%;
-            height: 5px;
-            background-color: #ddd;
-            border-radius: 5px;
-        }
-        .progress-bar .progress {
-            position: absolute;
-            height: 100%;
-            background-color: #4CAF50;
-            border-radius: 5px;
-            transition: width 0.5s ease-out;
-        }
-        .model-title {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: #4CAF50;
-        }
-        .section-header {
-            font-size: 1.3em;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #333;
-        }
-        .stTextArea {
-            color: #555;
-        }
     </style>
 """, unsafe_allow_html=True)
+
 # Main App UI
 st.title("VoiceAuth - Deepfake Audio and Voice Detector")
 st.markdown("### Detect fake voices using deep learning models")
@@ -115,7 +87,7 @@ st.image(logo_image, width=150)
 # File uploader
 uploaded_file = st.file_uploader(
     "Choose an audio file",
-    type=["mp3", "wav", "ogg", "flac", "aac", "m4a"],
+    type=["mp3", "wav", "ogg", "flac", "aac", "m4a", "mp4", "mov", "avi", "mkv", "webm"],
 )
 
 # Model selection
@@ -169,7 +141,7 @@ if uploaded_file:
 
             # Parallel processing for all models
             if model_option == "All":
-                with ThreadPoolExecutor(max_workers=20) as executor:
+                with ThreadPoolExecutor(max_workers=3) as executor:
                     futures = {
                         executor.submit(run_rf_model): "Random Forest",
                         executor.submit(run_hf_model): "Melody",
@@ -189,9 +161,8 @@ if uploaded_file:
 
                 # Combine results
                 confidences = [rf_confidence, hf_confidence, hf2_confidence]
-                valid_confidences = [c for c in confidences if c is not None]
+                valid_confidences = [c for c in confidences if isinstance(c, (int, float)) and c > 0]
                 combined_confidence = sum(valid_confidences) / len(valid_confidences) if valid_confidences else 0.0
-
                 combined_result = rf_is_fake or hf_is_fake or hf2_is_fake
 
             # Single model predictions
@@ -217,12 +188,14 @@ if uploaded_file:
             result_text = get_score_label(combined_confidence)
             st.text(f"Confidence: {result_text} ({combined_confidence:.2f})")
             st.text("Prediction: Fake" if combined_result else "Prediction: Real")
+            st.markdown("---")
             # File metadata
             file_format, file_size, audio_length, bitrate, _ = get_file_metadata(temp_file.name)
             st.text(
                 f"File Format: {file_format}, Size: {file_size:.2f} MB, "
                 f"Audio Length: {audio_length:.2f} sec, Bitrate: {bitrate:.2f} Mbps"
             )
+            st.markdown("---")
 
             # Save metadata
             model_used = model_option if model_option != "All" else "Random Forest, Melody, and 960h"
