@@ -15,9 +15,10 @@ from VoiceAuthBackend import (get_file_metadata,
                               predict_hf, predict_rf, visualize_mfcc, create_mel_spectrogram,
                               )
 
-# Setup environment variables
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+TF_ENABLE_ONEDNN_OPTS=0
+TF_CPP_MIN_LOG_LEVEL=2
 os.environ["LIBROSA_CACHE_DIR"] = "/tmp/librosa"
 if getattr(sys, "frozen", False):
     base_path = sys._MEIPASS
