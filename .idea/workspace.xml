@@ -152,15 +152,7 @@
       <workItem from="1735415953063" duration="637000" />
       <workItem from="1735430994707" duration="60000" />
       <workItem from="1735476066975" duration="844000" />
-      <workItem from="1735477019337" duration="2454000" />
-    </task>
-    <task id="LOCAL-00005" summary="Streamlit version of the VoiceAuth APP">
-      <option name="closed" value="true" />
-      <created>1733034857071</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1733034857071</updated>
+      <workItem from="1735477019337" duration="2803000" />
     </task>
     <task id="LOCAL-00006" summary="Streamlit version of the VoiceAuth APP">
       <option name="closed" value="true" />
@@ -546,7 +538,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735480690522</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735480828176</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1735480828176</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

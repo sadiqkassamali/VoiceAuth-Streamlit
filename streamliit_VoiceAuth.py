@@ -100,9 +100,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 # Main App UI
 st.title("VoiceAuth - Deepfake Audio and Voice Detector")
-st.markdown("### Detect fake voices using deep learning models")
 logo_image = Image.open("images/bot2.png")  # Your logo here
-st.image(logo_image, width=150)
+left_co, cent_co,last_co = st.columns(3)
+with cent_co:
+    st.image(logo_image, width=150)
 
 st.markdown("""
 🚀 **VoiceAuth** is here to redefine how we validate the authenticity of audio files. Whether you're a journalist, a business leader, or simply someone who values truth, VoiceAuth equips you with cutting-edge tools to detect and fight deepfake audio effortlessly.
