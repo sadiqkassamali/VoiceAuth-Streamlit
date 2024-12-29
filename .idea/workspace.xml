@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="Streamlit version of the VoiceAuth APP" />
+    <list default="true" id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="Streamlit version of the VoiceAuth APP">
+      <change beforePath="$PROJECT_DIR$/streamliit_VoiceAuth.py" beforeDir="false" afterPath="$PROJECT_DIR$/streamliit_VoiceAuth.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -150,31 +152,7 @@
       <workItem from="1735415953063" duration="637000" />
       <workItem from="1735430994707" duration="60000" />
       <workItem from="1735476066975" duration="844000" />
-      <workItem from="1735477019337" duration="3136000" />
-    </task>
-    <task id="LOCAL-00009" summary="Streamlit version of the VoiceAuth APP">
-      <option name="closed" value="true" />
-      <created>1735027109274</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1735027109274</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Streamlit version of the VoiceAuth APP">
-      <option name="closed" value="true" />
-      <created>1735029235597</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1735029235597</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Streamlit version of the VoiceAuth APP">
-      <option name="closed" value="true" />
-      <created>1735029693403</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1735029693403</updated>
+      <workItem from="1735477019337" duration="3512000" />
     </task>
     <task id="LOCAL-00012" summary="Streamlit version of the VoiceAuth APP">
       <option name="closed" value="true" />
@@ -544,7 +522,31 @@
       <option name="project" value="LOCAL" />
       <updated>1735481432813</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735481655143</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1735481655143</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735481746833</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1735481746833</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735481768374</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1735481768374</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

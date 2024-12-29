@@ -98,15 +98,11 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
-left_co, cent_co,last_co = st.columns(3)
 
-with cent_co:
-    st.title("VoiceAuth: Deepfake Audio and Voice Detector")
+st.title("VoiceAuth: Deepfake Audio and Voice Detector")
 logo_image = Image.open("images/bot2.png")  # Your logo here
-with left_co:
-    st.image(logo_image, width=150)
-with cent_co:
-    st.markdown("""
+st.image(logo_image, width=150)
+st.markdown("""
 🚀 **VoiceAuth** is here to redefine how we validate the authenticity of audio files. Whether you're a journalist, a business leader, or simply someone who values truth, VoiceAuth equips you with cutting-edge tools to detect and fight deepfake audio effortlessly.
 ### Who is it for?
 🔊 **Media Professionals**: Ensure your audio content is credible and tamper-proof.  
@@ -120,11 +116,6 @@ with cent_co:
 ✅ **Fast & Reliable**: Real-time analysis with confidence scores, metadata extraction, and visual insights.  
 ✅ **Multi-Model Capability**: Use models like **Random Forest**, **Melody**, or **960h** individually or combine them for superior results.  
 ✅ **Portable & Secure**: Runs seamlessly on your system with no internet dependency for predictions.
-### Transforming Industries!
-🎙️ **Journalism**: Verify audio sources before publishing.  
-⚖️ **Legal**: Strengthen audio evidence for court cases.  
-📈 **Business**: Detect fake voice inputs in customer interactions.  
-🔬 **Research**: Analyze voice patterns and expand your knowledge of machine learning.
 """)
 
 
@@ -312,11 +303,18 @@ if uploaded_file:
         st.markdown(f"[Open Mel Spectrogram in Browser](./{mel_spectrogram_path})", unsafe_allow_html=True)
 
 
+
 def open_donate():
     donate_url = "https://www.paypal.com/donate/?business=sadiqkassamali@gmail.com&no_recurring=0&item_name=Support+VoiceAuth+Development&currency_code=USD"
     webbrowser.open(donate_url)
 
-
+st.markdown("---")
+st.markdown("""### Transforming Industries!
+🎙️ **Journalism**: Verify audio sources before publishing.  
+⚖️ **Legal**: Strengthen audio evidence for court cases.  
+📈 **Business**: Detect fake voice inputs in customer interactions.  
+🔬 **Research**: Analyze voice patterns and expand your knowledge of machine learning.
+""")
 st.markdown("---")
 # Contact section with modern footer
 contact_expander = st.expander("Contact & Support")
