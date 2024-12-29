@@ -101,34 +101,31 @@ st.markdown("""
 left_co, cent_co,last_co = st.columns(3)
 
 with cent_co:
-    st.title("VoiceAuth - Deepfake Audio and Voice Detector")
+    st.title("VoiceAuth")
+    st.markdown("Deepfake Audio and Voice Detector")
 logo_image = Image.open("images/bot2.png")  # Your logo here
 with cent_co:
-    st.image(logo_image, width=200)
+    st.image(logo_image, width=150)
 
 st.markdown("""
 🚀 **VoiceAuth** is here to redefine how we validate the authenticity of audio files. Whether you're a journalist, a business leader, or simply someone who values truth, VoiceAuth equips you with cutting-edge tools to detect and fight deepfake audio effortlessly.
-
-## Who is it for?
+### Who is it for?
 🔊 **Media Professionals**: Ensure your audio content is credible and tamper-proof.  
 🛡️ **Law Enforcement**: Authenticate voice recordings in investigations.  
 📞 **Businesses**: Protect call centers and secure internal communications.  
 🎓 **Educators & Researchers**: Dive into real-world machine learning and voice analytics.  
 🔒 **Security Experts**: Enhance voice biometrics and authentication systems.
-
-## Why VoiceAuth?
+### Why VoiceAuth?
 ✅ **Detect Deepfakes with Precision**: Leverage advanced AI models, including **Random Forest** and **Hugging Face** technologies for superior accuracy.  
 ✅ **User-Friendly**: Intuitive interface tailored for both tech-savvy users and beginners.  
 ✅ **Fast & Reliable**: Real-time analysis with confidence scores, metadata extraction, and visual insights.  
 ✅ **Multi-Model Capability**: Use models like **Random Forest**, **Melody**, or **960h** individually or combine them for superior results.  
 ✅ **Portable & Secure**: Runs seamlessly on your system with no internet dependency for predictions.
-
-## Transforming Industries!
+### Transforming Industries!
 🎙️ **Journalism**: Verify audio sources before publishing.  
 ⚖️ **Legal**: Strengthen audio evidence for court cases.  
 📈 **Business**: Detect fake voice inputs in customer interactions.  
 🔬 **Research**: Analyze voice patterns and expand your knowledge of machine learning.
-
 """)
 
 
