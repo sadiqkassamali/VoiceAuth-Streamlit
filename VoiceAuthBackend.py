@@ -16,8 +16,8 @@ import shutil
 import datetime
 import logging
 import os
-from torch import hub
 from transformers import pipeline
+from transformers.utils import hub
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"

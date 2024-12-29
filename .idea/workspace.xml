@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="Streamlit version of the VoiceAuth APP">
-      <change beforePath="$PROJECT_DIR$/.idea/VoiceAuth-Streamlit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VoiceAuth-Streamlit.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamliit_VoiceAuth.py" beforeDir="false" afterPath="$PROJECT_DIR$/streamliit_VoiceAuth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoiceAuthBackend.py" beforeDir="false" afterPath="$PROJECT_DIR$/VoiceAuthBackend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +44,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.VoiceAuthBackend.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -150,7 +150,10 @@
       <workItem from="1735115303816" duration="1136000" />
       <workItem from="1735116465182" duration="6105000" />
       <workItem from="1735373549649" duration="1195000" />
-      <workItem from="1735415127626" duration="382000" />
+      <workItem from="1735415127626" duration="695000" />
+      <workItem from="1735415953063" duration="637000" />
+      <workItem from="1735430994707" duration="60000" />
+      <workItem from="1735476066975" duration="416000" />
     </task>
     <task id="LOCAL-00001" summary="Streamlit version of the VoiceAuth APP">
       <option name="closed" value="true" />
@@ -520,7 +523,31 @@
       <option name="project" value="LOCAL" />
       <updated>1735374544492</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735415549524</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1735415549524</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735415815710</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1735415815710</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735431021464</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1735431021464</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
