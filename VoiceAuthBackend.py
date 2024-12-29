@@ -4,12 +4,10 @@ from pydub import AudioSegment
 import numpy as np
 from mutagen.wave import WAVE  # For WAV files
 from mutagen.mp3 import MP3  # For MP3 files
-import mutagen
 import matplotlib.pyplot as plt
 import matplotlib
 import librosa
 import joblib
-import warnings
 import threading
 import tempfile
 import sys
@@ -98,9 +96,7 @@ def get_model_path(filename):
 
 # Load the Random Forest model
 rf_model_path = get_model_path("deepfakevoice.joblib")
-print(f"Resolved model path: {rf_model_path}")
-print(f"File exists: {os.path.exists(rf_model_path)}")
-rf_model = joblib.load(rf_model_path)
+
 
 try:
     print(f"Loading Random Forest model from {rf_model_path}...")
@@ -124,11 +120,12 @@ except Exception as e:
 # Load Hugging Face model-960h
 try:
     print("Loading Hugging Face model...")
-    pipe2: Pipeline = pipeline("audio-classification",
+    pipe2 = pipeline("audio-classification",
                      model="HyperMoon/wav2vec2-base-960h-finetuned-deepfake")
     print("960h model loaded successfully.")
 except Exception as e:
     print(f"Error loading Hugging Face model: {e}")
+
 db_path = None
 
 
