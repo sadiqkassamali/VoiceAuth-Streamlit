@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="Streamlit version of the VoiceAuth APP">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamliit_VoiceAuth.py" beforeDir="false" afterPath="$PROJECT_DIR$/streamliit_VoiceAuth.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,15 +152,7 @@
       <workItem from="1735415953063" duration="637000" />
       <workItem from="1735430994707" duration="60000" />
       <workItem from="1735476066975" duration="844000" />
-      <workItem from="1735477019337" duration="2134000" />
-    </task>
-    <task id="LOCAL-00004" summary="Streamlit version of the VoiceAuth APP">
-      <option name="closed" value="true" />
-      <created>1733034634910</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1733034634910</updated>
+      <workItem from="1735477019337" duration="2454000" />
     </task>
     <task id="LOCAL-00005" summary="Streamlit version of the VoiceAuth APP">
       <option name="closed" value="true" />
@@ -546,7 +538,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735478469770</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735480690522</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1735480690522</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
