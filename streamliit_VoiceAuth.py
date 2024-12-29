@@ -105,7 +105,7 @@ with cent_co:
 logo_image = Image.open("images/bot2.png")  # Your logo here
 with left_co:
     st.image(logo_image, width=150)
-with left_co:
+with cent_co:
     st.markdown("""
 🚀 **VoiceAuth** is here to redefine how we validate the authenticity of audio files. Whether you're a journalist, a business leader, or simply someone who values truth, VoiceAuth equips you with cutting-edge tools to detect and fight deepfake audio effortlessly.
 ### Who is it for?
