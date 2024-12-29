@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="36225776-0573-4c8b-a8ea-6e5e4e34f26d" name="Changes" comment="Streamlit version of the VoiceAuth APP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VoiceAuthBackend.py" beforeDir="false" afterPath="$PROJECT_DIR$/VoiceAuthBackend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,15 +152,7 @@
       <workItem from="1735415953063" duration="637000" />
       <workItem from="1735430994707" duration="60000" />
       <workItem from="1735476066975" duration="844000" />
-      <workItem from="1735477019337" duration="643000" />
-    </task>
-    <task id="LOCAL-00002" summary="Streamlit version of the VoiceAuth APP">
-      <option name="closed" value="true" />
-      <created>1733033491604</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1733033491604</updated>
+      <workItem from="1735477019337" duration="1318000" />
     </task>
     <task id="LOCAL-00003" summary="Streamlit version of the VoiceAuth APP">
       <option name="closed" value="true" />
@@ -548,7 +538,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735476581511</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Streamlit version of the VoiceAuth APP">
+      <option name="closed" value="true" />
+      <created>1735477913667</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1735477913667</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

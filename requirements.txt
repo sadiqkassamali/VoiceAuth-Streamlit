@@ -91,6 +91,7 @@ astunparse
 tensorboard
 optree
 opt_einsum
-hub
+tensorflow_hub
 ml-dtypes
 h5py
+PyQt5
