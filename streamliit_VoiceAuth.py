@@ -94,7 +94,7 @@ st.markdown("""
             font-size: 1.2rem;
         }
         .stText {
-            font-size: 1.1rem;
+            font-size: 1.0rem;
         }
     </style>
 """, unsafe_allow_html=True)
