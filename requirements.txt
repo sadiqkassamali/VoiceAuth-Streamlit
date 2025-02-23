@@ -158,3 +158,4 @@ urllib3
 watchdog
 Werkzeug
 wrapt
+streamlit
